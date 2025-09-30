@@ -40,10 +40,11 @@ function write<T>(key: string, value: T) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-type UsersMap = Record<string, UserProfile & { password: string }>;
+type UsersMap = Record<string, (UserProfile & { password: string; preferences?: { notifications: boolean; favoriteGenres: string[] } })>;
 type SessionsMap = Record<string, ID>;
 type BooksMap = Record<string, Book[]>;
 type WishlistMap = Record<string, Recommendation[]>;
+const LS_HISTORY = "myshelf.history"; // userId -> HistoryEntry[]
 
 function seedIfEmpty() {
   const users = read<UsersMap>(LS_USERS, {});
