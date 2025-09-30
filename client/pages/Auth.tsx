@@ -46,10 +46,6 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function fillDemo() {
-    setEmail("testeuna@gmail.com");
-    setPassword("Unateste123@");
-  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -73,12 +69,10 @@ function LoginForm() {
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
         <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="********" />
+        <p className="text-xs text-muted-foreground">Você pode entrar com: <span className="font-medium">testeuna@gmail.com</span> / <span className="font-mono">Unateste123@</span></p>
       </div>
-      <div className="flex items-center justify-between gap-3">
-        <Button type="button" variant="secondary" className="w-1/2" onClick={fillDemo} disabled={loading}>
-          Usar credenciais de teste
-        </Button>
-        <Button type="submit" className="w-1/2" disabled={loading}>
+      <div>
+        <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </Button>
       </div>
