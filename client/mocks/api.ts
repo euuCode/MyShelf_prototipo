@@ -247,7 +247,7 @@ export const MockApi = {
     ];
   },
 
-  async addBook(userId: ID, book: Omit<Book, "id" | "lastUpdatedAt">): Promise<Book> {
+  async addBook(userId: ID, book: BookCreate): Promise<Book> {
     const booksMap = read<BooksMap>(LS_BOOKS, {});
     const list = booksMap[userId] || [];
     const newBook: Book = { ...book, id: uid(), lastUpdatedAt: new Date().toISOString() };
@@ -255,5 +255,159 @@ export const MockApi = {
     booksMap[userId] = list;
     write(LS_BOOKS, booksMap);
     return newBook;
+  },
+
+  async listBooks(userId: ID, filters?: BookFilters): Promise<Book[]> {
+    const booksMap = read<BooksMap>(LS_BOOKS, {});
+    return filterBooks(booksMap[userId] || [], filters);
+  },
+
+  async updateBook(userId: ID, id: ID, patch: BookUpdate): Promise<Book> {
+    const booksMap = read<BooksMap>(LS_BOOKS, {});
+    const list = booksMap[userId] || [];
+    const idx = list.findIndex((b) => b.id === id);
+    if (idx === -1) throw new Error("Livro não encontrado");
+    const updated: Book = { ...list[idx], ...patch, lastUpdatedAt: new Date().toISOString() };
+    list[idx] = updated;
+    booksMap[userId] = list;
+    write(LS_BOOKS, booksMap);
+    return updated;
+  },
+
+  async deleteBook(userId: ID, id: ID): Promise<void> {
+    const booksMap = read<BooksMap>(LS_BOOKS, {});
+    booksMap[userId] = (booksMap[userId] || []).filter((b) => b.id !== id);
+    write(LS_BOOKS, booksMap);
+  },
+
+  async setProgress(userId: ID, id: ID, currentPage: number): Promise<Book> {
+    return this.updateBook(userId, id, { currentPage });
+  },
+
+  async addToWishlist(userId: ID, rec: Recommendation): Promise<void> {
+    const wl = read<WishlistMap>(LS_WISHLIST, {});
+    const list = wl[userId] || [];
+    if (!list.find((r) => r.id === rec.id)) list.push(rec);
+    wl[userId] = list;
+    write(LS_WISHLIST, wl);
+  },
+
+  async getWishlist(userId: ID): Promise<Recommendation[]> {
+    const wl = read<WishlistMap>(LS_WISHLIST, {});
+    return wl[userId] || [];
+  },
+
+  async removeFromWishlist(userId: ID, recId: ID): Promise<void> {
+    const wl = read<WishlistMap>(LS_WISHLIST, {});
+    wl[userId] = (wl[userId] || []).filter((r) => r.id !== recId);
+    write(LS_WISHLIST, wl);
+  },
+
+  async getRecommendations(userId: ID, type: "quick" | "personal" | "trending" = "quick", filters?: { genre?: string; author?: string }): Promise<Recommendation[]> {
+    const base = this.getRecommendationsBase(userId);
+    let data = base;
+    if (type === "personal") {
+      const users = read<UsersMap>(LS_USERS, {});
+      const prefs = users[userId]?.preferences?.favoriteGenres || [];
+      data = base.filter((r) => prefs.length === 0 || prefs.includes(r.genre));
+    } else if (type === "trending") {
+      data = [...base].reverse();
+    }
+    if (filters?.genre) data = data.filter((r) => r.genre === filters.genre);
+    if (filters?.author) data = data.filter((r) => r.author === filters.author);
+    return data;
+  },
+
+  getRecommendationsBase(_userId: ID): Recommendation[] {
+    return [
+      {
+        id: uid(),
+        title: "Hábitos Atômicos",
+        author: "James Clear",
+        genre: "Desenvolvimento Pessoal",
+        coverUrl:
+          "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
+      },
+      {
+        id: uid(),
+        title: "Sapiens",
+        author: "Yuval Noah Harari",
+        genre: "História",
+        coverUrl:
+          "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=800&auto=format&fit=crop",
+      },
+      {
+        id: uid(),
+        title: "O Hobbit",
+        author: "J. R. R. Tolkien",
+        genre: "Fantasia",
+        coverUrl:
+          "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop",
+      },
+      {
+        id: uid(),
+        title: "Mindset",
+        author: "Carol S. Dweck",
+        genre: "Psicologia",
+        coverUrl:
+          "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800&auto=format&fit=crop",
+      },
+    ];
+  },
+
+  async getProfile(userId: ID): Promise<UserProfileFull> {
+    const users = read<UsersMap>(LS_USERS, {});
+    const { password, preferences = { notifications: true, favoriteGenres: [] }, ...rest } = users[userId];
+    return { ...(rest as UserProfile), preferences } as UserProfileFull;
+  },
+
+  async updateProfile(userId: ID, data: Partial<UserProfile> & { preferences?: { notifications: boolean; favoriteGenres: string[] } }): Promise<UserProfileFull> {
+    const users = read<UsersMap>(LS_USERS, {});
+    const current = users[userId];
+    users[userId] = { ...current, ...data, preferences: { ...current.preferences, ...(data.preferences || {}) } } as UsersMap[string];
+    write(LS_USERS, users);
+    return this.getProfile(userId);
+  },
+
+  async changePassword(userId: ID, current: string, next: string): Promise<void> {
+    const users = read<UsersMap>(LS_USERS, {});
+    const user = users[userId];
+    if (!user || user.password !== current) throw new Error("Senha atual incorreta");
+    const policy = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    if (!policy.test(next)) throw new Error("Nova senha não atende à política");
+    user.password = next;
+    write(LS_USERS, users);
+  },
+
+  async getHistory(userId: ID): Promise<HistoryEntry[]> {
+    const map = read<Record<string, HistoryEntry[]>>(LS_HISTORY, {});
+    return map[userId] || [];
+  },
+
+  async pushHistory(userId: ID, entry: HistoryEntry): Promise<void> {
+    const map = read<Record<string, HistoryEntry[]>>(LS_HISTORY, {});
+    const list = map[userId] || [];
+    list.unshift(entry);
+    map[userId] = list;
+    write(LS_HISTORY, map);
+  },
+
+  async deleteAccount(userId: ID): Promise<void> {
+    const users = read<UsersMap>(LS_USERS, {});
+    delete users[userId];
+    write(LS_USERS, users);
+    const books = read<BooksMap>(LS_BOOKS, {});
+    delete books[userId];
+    write(LS_BOOKS, books);
+    const wl = read<WishlistMap>(LS_WISHLIST, {});
+    delete wl[userId];
+    write(LS_WISHLIST, wl);
+    const hist = read<Record<string, HistoryEntry[]>>(LS_HISTORY, {});
+    delete hist[userId];
+    write(LS_HISTORY, hist);
+    // remove sessions of this user
+    const sessions = read<SessionsMap>(LS_SESSIONS, {});
+    for (const [t, uid] of Object.entries(sessions)) if (uid === userId) delete sessions[t];
+    write(LS_SESSIONS, sessions);
   },
 };
