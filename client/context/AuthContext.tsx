@@ -10,6 +10,7 @@ interface AuthState {
   login: (creds: AuthCredentials) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
   logout: () => void;
+  updateUser: (u: UserProfile) => void;
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
