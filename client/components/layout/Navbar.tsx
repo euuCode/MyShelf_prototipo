@@ -2,6 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -26,7 +28,23 @@ export default function Navbar() {
           {user ? (
             <>
               <span className="hidden sm:block text-sm text-muted-foreground">Olá, {user.name.split(" ")[0]}</span>
-              <Button variant="outline" size="sm" onClick={logout}>Sair</Button>
+              <Button variant="outline" size="sm" onClick={logout} className="hidden md:inline-flex">Sair</Button>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" className="md:hidden">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <div className="flex flex-col gap-4 mt-8">
+                    <NavItem to="/" label="Home" />
+                    <NavItem to="/library" label="Minha Biblioteca" />
+                    <NavItem to="/recommendations" label="Recomendações" />
+                    <NavItem to="/profile" label="Meu Perfil" />
+                    <Button variant="outline" onClick={logout}>Sair</Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </>
           ) : (
             <Button asChild size="sm">
