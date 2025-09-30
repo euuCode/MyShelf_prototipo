@@ -7,6 +7,11 @@ import {
   Recommendation,
   RegisterPayload,
   UserProfile,
+  BookFilters,
+  BookCreate,
+  BookUpdate,
+  UserProfileFull,
+  HistoryEntry,
 } from "@shared/api";
 
 // UUID utility using Web Crypto when available
