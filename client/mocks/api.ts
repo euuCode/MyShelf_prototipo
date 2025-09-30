@@ -55,13 +55,14 @@ function seedIfEmpty() {
   const users = read<UsersMap>(LS_USERS, {});
   if (Object.keys(users).length === 0) {
     const id = uid();
-    const user: UserProfile & { password: string } = {
+    const user: UsersMap[string] = {
       id,
       name: "Usuário de Teste",
       email: "testeuna@gmail.com",
       phone: "",
       createdAt: new Date().toISOString(),
       password: "Unateste123@",
+      preferences: { notifications: true, favoriteGenres: ["Ficção", "Tecnologia"] },
     };
     users[id] = user;
     write(LS_USERS, users);
