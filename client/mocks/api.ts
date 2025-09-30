@@ -105,6 +105,20 @@ function seedIfEmpty() {
 }
 seedIfEmpty();
 
+function filterBooks(list: Book[], filters?: BookFilters) {
+  let result = [...list];
+  if (filters?.q) {
+    const q = filters.q.toLowerCase();
+    result = result.filter((b) => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+  }
+  if (filters?.title) result = result.filter((b) => b.title.toLowerCase().includes(filters.title!.toLowerCase()));
+  if (filters?.author) result = result.filter((b) => b.author.toLowerCase().includes(filters.author!.toLowerCase()));
+  if (filters?.genre) result = result.filter((b) => b.genre.toLowerCase() === filters.genre!.toLowerCase());
+  if (filters?.sort === "alpha") result.sort((a, b) => a.title.localeCompare(b.title));
+  if (filters?.sort === "date") result.sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+  return result;
+}
+
 export const MockApi = {
   async register(payload: RegisterPayload): Promise<AuthResponse> {
     const users = read<UsersMap>(LS_USERS, {});
