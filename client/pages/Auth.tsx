@@ -46,6 +46,11 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  function fillDemo() {
+    setEmail("testeuna@gmail.com");
+    setPassword("Unateste123@");
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -69,8 +74,11 @@ function LoginForm() {
         <Label htmlFor="password">Senha</Label>
         <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="********" />
       </div>
-      <div className="flex items-center justify-between">
-        <Button type="submit" className="w-full" disabled={loading}>
+      <div className="flex items-center justify-between gap-3">
+        <Button type="button" variant="secondary" className="w-1/2" onClick={fillDemo} disabled={loading}>
+          Usar credenciais de teste
+        </Button>
+        <Button type="submit" className="w-1/2" disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </Button>
       </div>
@@ -93,6 +101,11 @@ function SignupForm() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const policy = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    if (!policy.test(password)) {
+      toast.error("A senha deve ter letra maiúscula, número e caractere especial (mín. 8).");
+      return;
+    }
     setLoading(true);
     try {
       await register({ name, email, password, phone });
@@ -118,6 +131,7 @@ function SignupForm() {
         <div className="space-y-2">
           <Label htmlFor="password">Senha</Label>
           <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="********" />
+          <p className="text-xs text-muted-foreground">Mínimo 8 caracteres, com letra maiúscula, número e caractere especial.</p>
         </div>
         <div className="space-y-2">
           <Label htmlFor="phone">Telefone</Label>

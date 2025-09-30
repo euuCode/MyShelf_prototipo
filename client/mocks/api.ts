@@ -51,11 +51,11 @@ function seedIfEmpty() {
     const id = uid();
     const user: UserProfile & { password: string } = {
       id,
-      name: "Demo User",
-      email: "demo@myshelf.app",
+      name: "Usuário de Teste",
+      email: "testeuna@gmail.com",
       phone: "",
       createdAt: new Date().toISOString(),
-      password: "demo1234",
+      password: "Unateste123@",
     };
     users[id] = user;
     write(LS_USERS, users);
@@ -106,6 +106,11 @@ export const MockApi = {
     );
     if (exists) {
       throw new Error("E-mail já cadastrado");
+    }
+    // Password policy: at least 1 uppercase, 1 number and 1 special char
+    const policy = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    if (!policy.test(payload.password)) {
+      throw new Error("A senha deve ter letra maiúscula, número e caractere especial (mín. 8).");
     }
     const id = uid();
     const user: UsersMap[string] = {

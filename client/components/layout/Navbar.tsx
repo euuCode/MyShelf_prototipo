@@ -9,8 +9,8 @@ export default function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/80 border-b border-border">
       <div className="container mx-auto h-16 flex items-center justify-between">
         <Link to={user ? "/" : "/auth"} className="flex items-center gap-2 font-bold text-lg">
-          <div className="h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center text-primary font-extrabold">M</div>
-          <span>MyShelf</span>
+          <img src="https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F10132834169e442eaef59abebd423bd2?format=webp&width=96" alt="MyShelf" className="h-8 w-auto" />
+          <span className="hidden sm:inline">MyShelf</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {user && (
