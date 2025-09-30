@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
-import { Toaster as Sonner, toast } from "sonner";
+import { toast } from "sonner";
 
 export default function Auth() {
   return (
