@@ -71,8 +71,7 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   const { user, loading } = useAuth();
   if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Carregando...</div>;
   if (!user) {
-    window.location.href = "/auth";
-    return null;
+    return <Navigate to="/auth" replace />;
   }
   return <>{children}</>;
 };
