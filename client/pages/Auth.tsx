@@ -36,7 +36,6 @@ export default function Auth() {
           Ao continuar você concorda com nossos termos de uso e política de privacidade.
         </p>
       </div>
-      <Sonner richColors />
     </div>
   );
 }
