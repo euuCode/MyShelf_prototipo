@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { AuthCredentials, AuthResponse, RegisterPayload, UserProfile } from "@shared/api";
 import { MockApi } from "@/mocks/api";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface AuthState {
   user: UserProfile | null;
