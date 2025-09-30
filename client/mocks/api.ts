@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import {
   AuthCredentials,
   AuthResponse,
@@ -10,13 +9,13 @@ import {
   UserProfile,
 } from "@shared/api";
 
-// Simple uuid fallback if uuid isn't available
+// UUID utility using Web Crypto when available
 function uid() {
-  try {
-    return uuidv4();
-  } catch {
-    return Math.random().toString(36).slice(2);
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    // @ts-expect-error randomUUID exists in modern browsers
+    return crypto.randomUUID();
   }
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
 // localStorage keys
