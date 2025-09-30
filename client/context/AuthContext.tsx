@@ -57,7 +57,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     navigate("/auth");
   }, [navigate]);
 
-  const value: AuthState = useMemo(() => ({ user, token, loading, login, register, logout }), [user, token, loading, login, register, logout]);
+  const updateUser = useCallback((u: UserProfile) => setUser(u), []);
+
+  const value: AuthState = useMemo(() => ({ user, token, loading, login, register, logout, updateUser }), [user, token, loading, login, register, logout, updateUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
