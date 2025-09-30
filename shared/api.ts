@@ -80,6 +80,37 @@ export interface DashboardData {
   recentBooks: Book[];
 }
 
+// Filters and mutations
+export interface BookFilters {
+  q?: string;
+  title?: string;
+  author?: string;
+  genre?: string;
+  sort?: "alpha" | "date";
+}
+
+export type BookCreate = Omit<Book, "id" | "lastUpdatedAt">;
+export type BookUpdate = Partial<Omit<Book, "id">>;
+
+// Profile and history
+export interface UserPreferences {
+  notifications: boolean;
+  favoriteGenres: string[];
+}
+
+export interface HistoryEntry {
+  id: ID;
+  bookId: ID;
+  title: string;
+  finishedAt: string; // ISO
+  rating?: number;
+  review?: string;
+}
+
+export interface UserProfileFull extends UserProfile {
+  preferences: UserPreferences;
+}
+
 /** Example response type for /api/demo */
 export interface DemoResponse {
   message: string;
