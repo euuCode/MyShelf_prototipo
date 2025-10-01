@@ -38,10 +38,10 @@ function RecsInner() {
       <div className="flex flex-wrap gap-3 items-end">
         <div>
           <label className="text-sm text-muted-foreground">Gênero</label>
-          <Select value={genre} onValueChange={setGenre}>
+          <Select value={genre} onValueChange={(v) => setGenre(v === "all" ? undefined : v)}>
             <SelectTrigger className="w-40"><SelectValue placeholder="Todos" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Todos</SelectItem>
+              <SelectItem value="all">Todos</SelectItem>
               {genres.map((g) => (
                 <SelectItem key={g} value={g}>{g}</SelectItem>
               ))}
@@ -50,10 +50,10 @@ function RecsInner() {
         </div>
         <div>
           <label className="text-sm text-muted-foreground">Autor</label>
-          <Select value={author} onValueChange={setAuthor}>
+          <Select value={author} onValueChange={(v) => setAuthor(v === "all" ? undefined : v)}>
             <SelectTrigger className="w-40"><SelectValue placeholder="Todos" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Todos</SelectItem>
+              <SelectItem value="all">Todos</SelectItem>
               {authors.map((a) => (
                 <SelectItem key={a} value={a}>{a}</SelectItem>
               ))}
