@@ -11,7 +11,7 @@ export function BookCard({
   onAction?: () => void;
 }) {
   const isBook = (i: any): i is Book => "status" in i;
-  return (
+  const Card = (
     <div className="group rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden">
       {item.coverUrl && (
         <div className="aspect-[3/4] w-full overflow-hidden bg-muted">
@@ -31,6 +31,14 @@ export function BookCard({
       </div>
     </div>
   );
+  if (isBook(item)) {
+    return (
+      <a href={`/read/${item.id}`} className="block focus:outline-none focus:ring-2 focus:ring-ring rounded-lg">
+        {Card}
+      </a>
+    );
+  }
+  return Card;
 }
 
 export function StatCard({ title, value, desc }: { title: string; value: string; desc?: string }) {
