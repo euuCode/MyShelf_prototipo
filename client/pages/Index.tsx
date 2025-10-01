@@ -8,7 +8,13 @@ import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Index() {
   return (
@@ -57,20 +63,38 @@ function Dashboard() {
     <div className="min-h-screen bg-background">
       <main className="container pt-24 pb-10 space-y-10">
         <section className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Olá, {user?.name.split(" ")[0]}</h1>
-          <p className="text-muted-foreground">Aqui está um resumo da sua biblioteca e sugestões para a próxima leitura.</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Olá, {user?.name.split(" ")[0]}
+          </h1>
+          <p className="text-muted-foreground">
+            Aqui está um resumo da sua biblioteca e sugestões para a próxima
+            leitura.
+          </p>
         </section>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="/library" className="block focus:outline-none focus:ring-2 focus:ring-ring rounded-lg">
-            <StatCard title="Total de livros" value={String(summary.totalBooks)} />
+          <a
+            href="/library"
+            className="block focus:outline-none focus:ring-2 focus:ring-ring rounded-lg"
+          >
+            <StatCard
+              title="Total de livros"
+              value={String(summary.totalBooks)}
+            />
           </a>
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
-            <div className="text-sm text-muted-foreground">Última atividade</div>
-            <div className="text-2xl font-bold mt-1">{last ? last.title : "Sem atividades"}</div>
+            <div className="text-sm text-muted-foreground">
+              Última atividade
+            </div>
+            <div className="text-2xl font-bold mt-1">
+              {last ? last.title : "Sem atividades"}
+            </div>
             {last && (
               <div className="text-xs text-muted-foreground mt-1">
-                {formatDistanceToNow(new Date(last.lastUpdatedAt), { addSuffix: true, locale: ptBR })}
+                {formatDistanceToNow(new Date(last.lastUpdatedAt), {
+                  addSuffix: true,
+                  locale: ptBR,
+                })}
               </div>
             )}
           </div>
@@ -97,7 +121,10 @@ function Dashboard() {
           <Carousel className="w-full" opts={{ align: "start" }}>
             <CarouselContent>
               {suggestions.slice(0, 5).map((s) => (
-                <CarouselItem key={s.id} className="basis-2/3 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
+                <CarouselItem
+                  key={s.id}
+                  className="basis-2/3 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+                >
                   <BookCard
                     item={s}
                     cta="Adicionar à Biblioteca"

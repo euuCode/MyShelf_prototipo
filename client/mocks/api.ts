@@ -46,7 +46,21 @@ function write<T>(key: string, value: T) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-type UsersMap = Record<string, (UserProfile & { password: string; preferences?: { notifications: boolean; favoriteGenres: string[]; reading: { light: "claro" | "escuro" | "sepia"; fontFamily: "serif" | "sans" | "dyslexic"; fontSize: number } } })>;
+type UsersMap = Record<
+  string,
+  UserProfile & {
+    password: string;
+    preferences?: {
+      notifications: boolean;
+      favoriteGenres: string[];
+      reading: {
+        light: "claro" | "escuro" | "sepia";
+        fontFamily: "serif" | "sans" | "dyslexic";
+        fontSize: number;
+      };
+    };
+  }
+>;
 type SessionsMap = Record<string, ID>;
 type BooksMap = Record<string, Book[]>;
 type WishlistMap = Record<string, Recommendation[]>;
@@ -63,7 +77,11 @@ function seedIfEmpty() {
       phone: "",
       createdAt: new Date().toISOString(),
       password: "Unateste123@",
-      preferences: { notifications: true, favoriteGenres: ["Ficção", "Tecnologia"], reading: { light: "claro", fontFamily: "serif", fontSize: 16 } },
+      preferences: {
+        notifications: true,
+        favoriteGenres: ["Ficção", "Tecnologia"],
+        reading: { light: "claro", fontFamily: "serif", fontSize: 16 },
+      },
     };
     users[id] = user;
     write(LS_USERS, users);
@@ -108,11 +126,16 @@ seedIfEmpty();
 
 // Normalize covers for existing data
 const COVER_MAP: Record<string, string> = {
-  "Sapiens": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F28bdbd85bdfa4e9397c414000978e079?format=webp&width=800",
-  "Clean Code": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
-  "O Pequeno Príncipe": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
-  "Hábitos Atômicos": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2Fbb6e9e87addf4dd9a0fcecf3c8498980?format=webp&width=800",
-  "O Hobbit": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
+  Sapiens:
+    "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F28bdbd85bdfa4e9397c414000978e079?format=webp&width=800",
+  "Clean Code":
+    "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
+  "O Pequeno Príncipe":
+    "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
+  "Hábitos Atômicos":
+    "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2Fbb6e9e87addf4dd9a0fcecf3c8498980?format=webp&width=800",
+  "O Hobbit":
+    "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
 };
 
 (function upgradeCovers() {
@@ -136,13 +159,27 @@ function filterBooks(list: Book[], filters?: BookFilters) {
   let result = [...list];
   if (filters?.q) {
     const q = filters.q.toLowerCase();
-    result = result.filter((b) => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+    result = result.filter(
+      (b) =>
+        b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q),
+    );
   }
-  if (filters?.title) result = result.filter((b) => b.title.toLowerCase().includes(filters.title!.toLowerCase()));
-  if (filters?.author) result = result.filter((b) => b.author.toLowerCase().includes(filters.author!.toLowerCase()));
-  if (filters?.genre) result = result.filter((b) => b.genre.toLowerCase() === filters.genre!.toLowerCase());
-  if (filters?.sort === "alpha") result.sort((a, b) => a.title.localeCompare(b.title));
-  if (filters?.sort === "date") result.sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+  if (filters?.title)
+    result = result.filter((b) =>
+      b.title.toLowerCase().includes(filters.title!.toLowerCase()),
+    );
+  if (filters?.author)
+    result = result.filter((b) =>
+      b.author.toLowerCase().includes(filters.author!.toLowerCase()),
+    );
+  if (filters?.genre)
+    result = result.filter(
+      (b) => b.genre.toLowerCase() === filters.genre!.toLowerCase(),
+    );
+  if (filters?.sort === "alpha")
+    result.sort((a, b) => a.title.localeCompare(b.title));
+  if (filters?.sort === "date")
+    result.sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
   return result;
 }
 
@@ -158,7 +195,9 @@ export const MockApi = {
     // Password policy: at least 1 uppercase, 1 number and 1 special char
     const policy = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     if (!policy.test(payload.password)) {
-      throw new Error("A senha deve ter letra maiúscula, número e caractere especial (mín. 8).");
+      throw new Error(
+        "A senha deve ter letra maiúscula, número e caractere especial (mín. 8).",
+      );
     }
     const id = uid();
     const user: UsersMap[string] = {
@@ -217,21 +256,32 @@ export const MockApi = {
     const totalBooks = list.length;
     const reading = list.filter((b) => b.status === "reading").length;
     const completed = list.filter((b) => b.status === "completed").length;
-    const wishlistCount = read<WishlistMap>(LS_WISHLIST, {})[userId]?.length ?? 0;
+    const wishlistCount =
+      read<WishlistMap>(LS_WISHLIST, {})[userId]?.length ?? 0;
     const progressSum = list.reduce((acc, b) => {
       if (!b.totalPages || !b.currentPage) return acc;
       return acc + Math.min(100, (b.currentPage / b.totalPages) * 100);
     }, 0);
-    const overallProgressPct = totalBooks > 0 ? Math.round(progressSum / totalBooks) : 0;
+    const overallProgressPct =
+      totalBooks > 0 ? Math.round(progressSum / totalBooks) : 0;
 
-    const suggestions: Recommendation[] = await MockApi.getRecommendations(userId, "quick");
+    const suggestions: Recommendation[] = await MockApi.getRecommendations(
+      userId,
+      "quick",
+    );
 
     const recentBooks = [...list]
       .sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt))
       .slice(0, 4);
 
     return {
-      summary: { totalBooks, reading, completed, wishlistCount, overallProgressPct },
+      summary: {
+        totalBooks,
+        reading,
+        completed,
+        wishlistCount,
+        overallProgressPct,
+      },
       suggestions,
       recentBooks,
     };
@@ -277,7 +327,11 @@ export const MockApi = {
   async addBook(userId: ID, book: BookCreate): Promise<Book> {
     const booksMap = read<BooksMap>(LS_BOOKS, {});
     const list = booksMap[userId] || [];
-    const newBook: Book = { ...book, id: uid(), lastUpdatedAt: new Date().toISOString() };
+    const newBook: Book = {
+      ...book,
+      id: uid(),
+      lastUpdatedAt: new Date().toISOString(),
+    };
     list.unshift(newBook);
     booksMap[userId] = list;
     write(LS_BOOKS, booksMap);
@@ -294,7 +348,11 @@ export const MockApi = {
     const list = booksMap[userId] || [];
     const idx = list.findIndex((b) => b.id === id);
     if (idx === -1) throw new Error("Livro não encontrado");
-    const updated: Book = { ...list[idx], ...patch, lastUpdatedAt: new Date().toISOString() };
+    const updated: Book = {
+      ...list[idx],
+      ...patch,
+      lastUpdatedAt: new Date().toISOString(),
+    };
     list[idx] = updated;
     booksMap[userId] = list;
     write(LS_BOOKS, booksMap);
@@ -330,7 +388,11 @@ export const MockApi = {
     write(LS_WISHLIST, wl);
   },
 
-  async getRecommendations(userId: ID, type: "quick" | "personal" | "trending" = "quick", filters?: { genre?: string; author?: string }): Promise<Recommendation[]> {
+  async getRecommendations(
+    userId: ID,
+    type: "quick" | "personal" | "trending" = "quick",
+    filters?: { genre?: string; author?: string },
+  ): Promise<Recommendation[]> {
     const base = this.getRecommendationsBase(userId);
     let data = base;
     if (type === "personal") {
@@ -392,32 +454,74 @@ export const MockApi = {
 
   async getProfile(userId: ID): Promise<UserProfileFull> {
     const users = read<UsersMap>(LS_USERS, {});
-    const { password, preferences = { notifications: true, favoriteGenres: [], reading: { light: "claro", fontFamily: "serif", fontSize: 16 } }, ...rest } = users[userId];
+    const {
+      password,
+      preferences = {
+        notifications: true,
+        favoriteGenres: [],
+        reading: { light: "claro", fontFamily: "serif", fontSize: 16 },
+      },
+      ...rest
+    } = users[userId];
     const fullPrefs = {
       notifications: preferences.notifications ?? true,
       favoriteGenres: preferences.favoriteGenres ?? [],
-      reading: preferences.reading ?? { light: "claro", fontFamily: "serif", fontSize: 16 },
+      reading: preferences.reading ?? {
+        light: "claro",
+        fontFamily: "serif",
+        fontSize: 16,
+      },
     };
-    return { ...(rest as UserProfile), preferences: fullPrefs } as UserProfileFull;
+    return {
+      ...(rest as UserProfile),
+      preferences: fullPrefs,
+    } as UserProfileFull;
   },
 
-  async updateProfile(userId: ID, data: Partial<UserProfile> & { preferences?: Partial<UsersMap[string]["preferences"]> }): Promise<UserProfileFull> {
+  async updateProfile(
+    userId: ID,
+    data: Partial<UserProfile> & {
+      preferences?: Partial<UsersMap[string]["preferences"]>;
+    },
+  ): Promise<UserProfileFull> {
     const users = read<UsersMap>(LS_USERS, {});
     const current = users[userId];
     const mergedPrefs = {
-      notifications: data.preferences?.notifications ?? current.preferences?.notifications ?? true,
-      favoriteGenres: data.preferences?.favoriteGenres ?? current.preferences?.favoriteGenres ?? [],
-      reading: { ...(current.preferences?.reading ?? { light: "claro", fontFamily: "serif", fontSize: 16 }), ...(data.preferences?.reading ?? {}) },
+      notifications:
+        data.preferences?.notifications ??
+        current.preferences?.notifications ??
+        true,
+      favoriteGenres:
+        data.preferences?.favoriteGenres ??
+        current.preferences?.favoriteGenres ??
+        [],
+      reading: {
+        ...(current.preferences?.reading ?? {
+          light: "claro",
+          fontFamily: "serif",
+          fontSize: 16,
+        }),
+        ...(data.preferences?.reading ?? {}),
+      },
     };
-    users[userId] = { ...current, ...data, preferences: mergedPrefs } as UsersMap[string];
+    users[userId] = {
+      ...current,
+      ...data,
+      preferences: mergedPrefs,
+    } as UsersMap[string];
     write(LS_USERS, users);
     return this.getProfile(userId);
   },
 
-  async changePassword(userId: ID, current: string, next: string): Promise<void> {
+  async changePassword(
+    userId: ID,
+    current: string,
+    next: string,
+  ): Promise<void> {
     const users = read<UsersMap>(LS_USERS, {});
     const user = users[userId];
-    if (!user || user.password !== current) throw new Error("Senha atual incorreta");
+    if (!user || user.password !== current)
+      throw new Error("Senha atual incorreta");
     const policy = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     if (!policy.test(next)) throw new Error("Nova senha não atende à política");
     user.password = next;
@@ -452,34 +556,105 @@ export const MockApi = {
     write(LS_HISTORY, hist);
     // remove sessions of this user
     const sessions = read<SessionsMap>(LS_SESSIONS, {});
-    for (const [t, uid] of Object.entries(sessions)) if (uid === userId) delete sessions[t];
+    for (const [t, uid] of Object.entries(sessions))
+      if (uid === userId) delete sessions[t];
     write(LS_SESSIONS, sessions);
   },
 
   // Reading state helpers (client-side simulation)
-  async getReadingState(userId: ID, bookId: ID): Promise<{ chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }> {
-    const all = read<Record<string, Record<string, { chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }>>>(LS_READING, {});
+  async getReadingState(
+    userId: ID,
+    bookId: ID,
+  ): Promise<{
+    chapterIndex: number;
+    pageIndex: number;
+    bookmarks: { chapterIndex: number; pageIndex: number }[];
+  }> {
+    const all = read<
+      Record<
+        string,
+        Record<
+          string,
+          {
+            chapterIndex: number;
+            pageIndex: number;
+            bookmarks: { chapterIndex: number; pageIndex: number }[];
+          }
+        >
+      >
+    >(LS_READING, {});
     const userMap = all[userId] || {};
-    const st = userMap[bookId] || { chapterIndex: 0, pageIndex: 0, bookmarks: [] };
+    const st = userMap[bookId] || {
+      chapterIndex: 0,
+      pageIndex: 0,
+      bookmarks: [],
+    };
     return st;
   },
-  async setReadingPosition(userId: ID, bookId: ID, chapterIndex: number, pageIndex: number): Promise<void> {
-    const all = read<Record<string, Record<string, { chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }>>>(LS_READING, {});
+  async setReadingPosition(
+    userId: ID,
+    bookId: ID,
+    chapterIndex: number,
+    pageIndex: number,
+  ): Promise<void> {
+    const all = read<
+      Record<
+        string,
+        Record<
+          string,
+          {
+            chapterIndex: number;
+            pageIndex: number;
+            bookmarks: { chapterIndex: number; pageIndex: number }[];
+          }
+        >
+      >
+    >(LS_READING, {});
     const userMap = all[userId] || {};
-    const prev = userMap[bookId] || { chapterIndex: 0, pageIndex: 0, bookmarks: [] };
+    const prev = userMap[bookId] || {
+      chapterIndex: 0,
+      pageIndex: 0,
+      bookmarks: [],
+    };
     userMap[bookId] = { ...prev, chapterIndex, pageIndex };
     all[userId] = userMap;
     write(LS_READING, all);
   },
-  async toggleBookmark(userId: ID, bookId: ID, chapterIndex: number, pageIndex: number): Promise<boolean> {
-    const all = read<Record<string, Record<string, { chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }>>>(LS_READING, {});
+  async toggleBookmark(
+    userId: ID,
+    bookId: ID,
+    chapterIndex: number,
+    pageIndex: number,
+  ): Promise<boolean> {
+    const all = read<
+      Record<
+        string,
+        Record<
+          string,
+          {
+            chapterIndex: number;
+            pageIndex: number;
+            bookmarks: { chapterIndex: number; pageIndex: number }[];
+          }
+        >
+      >
+    >(LS_READING, {});
     const userMap = all[userId] || {};
-    const prev = userMap[bookId] || { chapterIndex: 0, pageIndex: 0, bookmarks: [] };
-    const exists = prev.bookmarks.findIndex((b) => b.chapterIndex === chapterIndex && b.pageIndex === pageIndex);
+    const prev = userMap[bookId] || {
+      chapterIndex: 0,
+      pageIndex: 0,
+      bookmarks: [],
+    };
+    const exists = prev.bookmarks.findIndex(
+      (b) => b.chapterIndex === chapterIndex && b.pageIndex === pageIndex,
+    );
     let nextMarks = prev.bookmarks;
     let added = false;
     if (exists >= 0) {
-      nextMarks = [...prev.bookmarks.slice(0, exists), ...prev.bookmarks.slice(exists + 1)];
+      nextMarks = [
+        ...prev.bookmarks.slice(0, exists),
+        ...prev.bookmarks.slice(exists + 1),
+      ];
     } else {
       nextMarks = [...prev.bookmarks, { chapterIndex, pageIndex }];
       added = true;
