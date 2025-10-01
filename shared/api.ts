@@ -41,6 +41,8 @@ export interface Book {
   author: string;
   genre: string;
   coverUrl?: string;
+  // Optional URL to a PDF or EPUB file that can be rendered in-app
+  pdfUrl?: string;
   status: ReadingStatus;
   currentPage?: number;
   totalPages?: number;
