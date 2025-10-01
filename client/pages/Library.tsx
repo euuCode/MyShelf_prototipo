@@ -50,10 +50,10 @@ function LibraryInner() {
           </div>
           <div>
             <label className="text-sm text-muted-foreground">Gênero</label>
-            <Select value={genre} onValueChange={(v) => { setGenre(v); setFilters((f) => ({ ...f, genre: v })); }}>
+            <Select value={genre} onValueChange={(v) => { const val = v === "all" ? undefined : v; setGenre(val); setFilters((f) => ({ ...f, genre: val })); }}>
               <SelectTrigger><SelectValue placeholder="Todos" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Todos</SelectItem>
+                <SelectItem value="all">Todos</SelectItem>
                 {genres.map((g) => (
                   <SelectItem key={g} value={g}>{g}</SelectItem>
                 ))}
