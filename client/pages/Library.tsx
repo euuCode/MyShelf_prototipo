@@ -91,7 +91,7 @@ function LibraryInner() {
           {books.map((b) => (
             <div key={b.id} className="relative group">
               <BookCard item={b} />
-              <div className="absolute inset-x-2 -bottom-3 flex gap-2 opacity-0 group-hover:opacity-100 transition">
+              <div className="absolute inset-x-2 -bottom-3 flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition">
                 <ProgressModal
                   book={b}
                   trigger={<Button size="sm" variant="secondary" className="flex-1"><BookOpen className="h-4 w-4 mr-1" />Progresso</Button>}
