@@ -45,7 +45,7 @@ function write<T>(key: string, value: T) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-type UsersMap = Record<string, (UserProfile & { password: string; preferences?: { notifications: boolean; favoriteGenres: string[] } })>;
+type UsersMap = Record<string, (UserProfile & { password: string; preferences?: { notifications: boolean; favoriteGenres: string[]; reading: { light: "claro" | "escuro" | "sepia"; fontFamily: "serif" | "sans" | "dyslexic"; fontSize: number } } })>;
 type SessionsMap = Record<string, ID>;
 type BooksMap = Record<string, Book[]>;
 type WishlistMap = Record<string, Recommendation[]>;
@@ -62,7 +62,7 @@ function seedIfEmpty() {
       phone: "",
       createdAt: new Date().toISOString(),
       password: "Unateste123@",
-      preferences: { notifications: true, favoriteGenres: ["Ficção", "Tecnologia"] },
+      preferences: { notifications: true, favoriteGenres: ["Ficção", "Tecnologia"], reading: { light: "claro", fontFamily: "serif", fontSize: 16 } },
     };
     users[id] = user;
     write(LS_USERS, users);
@@ -391,14 +391,24 @@ export const MockApi = {
 
   async getProfile(userId: ID): Promise<UserProfileFull> {
     const users = read<UsersMap>(LS_USERS, {});
-    const { password, preferences = { notifications: true, favoriteGenres: [] }, ...rest } = users[userId];
-    return { ...(rest as UserProfile), preferences } as UserProfileFull;
+    const { password, preferences = { notifications: true, favoriteGenres: [], reading: { light: "claro", fontFamily: "serif", fontSize: 16 } }, ...rest } = users[userId];
+    const fullPrefs = {
+      notifications: preferences.notifications ?? true,
+      favoriteGenres: preferences.favoriteGenres ?? [],
+      reading: preferences.reading ?? { light: "claro", fontFamily: "serif", fontSize: 16 },
+    };
+    return { ...(rest as UserProfile), preferences: fullPrefs } as UserProfileFull;
   },
 
-  async updateProfile(userId: ID, data: Partial<UserProfile> & { preferences?: { notifications: boolean; favoriteGenres: string[] } }): Promise<UserProfileFull> {
+  async updateProfile(userId: ID, data: Partial<UserProfile> & { preferences?: Partial<UsersMap[string]["preferences"]> }): Promise<UserProfileFull> {
     const users = read<UsersMap>(LS_USERS, {});
     const current = users[userId];
-    users[userId] = { ...current, ...data, preferences: { ...current.preferences, ...(data.preferences || {}) } } as UsersMap[string];
+    const mergedPrefs = {
+      notifications: data.preferences?.notifications ?? current.preferences?.notifications ?? true,
+      favoriteGenres: data.preferences?.favoriteGenres ?? current.preferences?.favoriteGenres ?? [],
+      reading: { ...(current.preferences?.reading ?? { light: "claro", fontFamily: "serif", fontSize: 16 }), ...(data.preferences?.reading ?? {}) },
+    };
+    users[userId] = { ...current, ...data, preferences: mergedPrefs } as UsersMap[string];
     write(LS_USERS, users);
     return this.getProfile(userId);
   },
