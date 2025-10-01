@@ -93,9 +93,16 @@ export type BookCreate = Omit<Book, "id" | "lastUpdatedAt">;
 export type BookUpdate = Partial<Omit<Book, "id">>;
 
 // Profile and history
+export interface ReadingOptions {
+  light: "claro" | "escuro" | "sepia";
+  fontFamily: "serif" | "sans" | "dyslexic";
+  fontSize: number; // 12..24 px
+}
+
 export interface UserPreferences {
   notifications: boolean;
   favoriteGenres: string[];
+  reading: ReadingOptions;
 }
 
 export interface HistoryEntry {
