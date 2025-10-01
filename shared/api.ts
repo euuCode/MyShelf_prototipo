@@ -41,8 +41,6 @@ export interface Book {
   author: string;
   genre: string;
   coverUrl?: string;
-  // Optional URL to a PDF or EPUB file that can be rendered in-app
-  pdfUrl?: string;
   status: ReadingStatus;
   currentPage?: number;
   totalPages?: number;
@@ -118,6 +116,17 @@ export interface HistoryEntry {
 
 export interface UserProfileFull extends UserProfile {
   preferences: UserPreferences;
+}
+
+// Reading state (client-side simulation)
+export interface Bookmark {
+  chapterIndex: number;
+  pageIndex: number;
+}
+export interface ReadingState {
+  chapterIndex: number;
+  pageIndex: number;
+  bookmarks: Bookmark[];
 }
 
 /** Example response type for /api/demo */
