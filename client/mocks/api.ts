@@ -28,6 +28,7 @@ const LS_USERS = "myshelf.users";
 const LS_SESSIONS = "myshelf.sessions"; // token -> userId
 const LS_BOOKS = "myshelf.books"; // userId -> Book[]
 const LS_WISHLIST = "myshelf.wishlist"; // userId -> Recommendation[]
+const LS_READING = "myshelf.reading"; // userId -> { [bookId]: { chapterIndex:number; pageIndex:number; bookmarks: {chapterIndex:number; pageIndex:number}[] } }
 
 function read<T>(key: string, fallback: T): T {
   if (typeof localStorage === "undefined") return fallback;
