@@ -20,7 +20,7 @@ export default function Navbar() {
               <NavItem to="/" label="Home" />
               <NavItem to="/library" label="Minha Biblioteca" />
               <NavItem to="/recommendations" label="Recomendações" />
-              <NavItem to="/profile" label="Meu Perfil" />
+              <NavItem to="/settings" label="Configurações" />
             </>
           )}
         </nav>
@@ -40,7 +40,7 @@ export default function Navbar() {
                     <NavItem to="/" label="Home" />
                     <NavItem to="/library" label="Minha Biblioteca" />
                     <NavItem to="/recommendations" label="Recomendações" />
-                    <NavItem to="/profile" label="Meu Perfil" />
+                    <NavItem to="/settings" label="Configurações" />
                     <Button variant="outline" onClick={logout}>Sair</Button>
                   </div>
                 </SheetContent>
