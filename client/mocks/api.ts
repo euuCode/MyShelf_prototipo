@@ -455,4 +455,38 @@ export const MockApi = {
     for (const [t, uid] of Object.entries(sessions)) if (uid === userId) delete sessions[t];
     write(LS_SESSIONS, sessions);
   },
+
+  // Reading state helpers (client-side simulation)
+  async getReadingState(userId: ID, bookId: ID): Promise<{ chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }> {
+    const all = read<Record<string, Record<string, { chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }>>>(LS_READING, {});
+    const userMap = all[userId] || {};
+    const st = userMap[bookId] || { chapterIndex: 0, pageIndex: 0, bookmarks: [] };
+    return st;
+  },
+  async setReadingPosition(userId: ID, bookId: ID, chapterIndex: number, pageIndex: number): Promise<void> {
+    const all = read<Record<string, Record<string, { chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }>>>(LS_READING, {});
+    const userMap = all[userId] || {};
+    const prev = userMap[bookId] || { chapterIndex: 0, pageIndex: 0, bookmarks: [] };
+    userMap[bookId] = { ...prev, chapterIndex, pageIndex };
+    all[userId] = userMap;
+    write(LS_READING, all);
+  },
+  async toggleBookmark(userId: ID, bookId: ID, chapterIndex: number, pageIndex: number): Promise<boolean> {
+    const all = read<Record<string, Record<string, { chapterIndex: number; pageIndex: number; bookmarks: { chapterIndex: number; pageIndex: number }[] }>>>(LS_READING, {});
+    const userMap = all[userId] || {};
+    const prev = userMap[bookId] || { chapterIndex: 0, pageIndex: 0, bookmarks: [] };
+    const exists = prev.bookmarks.findIndex((b) => b.chapterIndex === chapterIndex && b.pageIndex === pageIndex);
+    let nextMarks = prev.bookmarks;
+    let added = false;
+    if (exists >= 0) {
+      nextMarks = [...prev.bookmarks.slice(0, exists), ...prev.bookmarks.slice(exists + 1)];
+    } else {
+      nextMarks = [...prev.bookmarks, { chapterIndex, pageIndex }];
+      added = true;
+    }
+    userMap[bookId] = { ...prev, bookmarks: nextMarks };
+    all[userId] = userMap;
+    write(LS_READING, all);
+    return added;
+  },
 };
