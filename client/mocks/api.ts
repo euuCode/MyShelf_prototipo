@@ -74,7 +74,7 @@ function seedIfEmpty() {
         author: "Robert C. Martin",
         genre: "Tecnologia",
         coverUrl:
-          "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=800&auto=format&fit=crop",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
         status: "reading",
         currentPage: 120,
         totalPages: 464,
@@ -86,7 +86,7 @@ function seedIfEmpty() {
         author: "Antoine de Saint-Exupéry",
         genre: "Ficção",
         coverUrl:
-          "https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=800&auto=format&fit=crop",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
         status: "completed",
         currentPage: 96,
         totalPages: 96,
@@ -322,19 +322,35 @@ export const MockApi = {
     return [
       {
         id: uid(),
-        title: "Hábitos Atômicos",
-        author: "James Clear",
-        genre: "Desenvolvimento Pessoal",
-        coverUrl:
-          "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
-      },
-      {
-        id: uid(),
         title: "Sapiens",
         author: "Yuval Noah Harari",
         genre: "História",
         coverUrl:
-          "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=800&auto=format&fit=crop",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F28bdbd85bdfa4e9397c414000978e079?format=webp&width=800",
+      },
+      {
+        id: uid(),
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        genre: "Tecnologia",
+        coverUrl:
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
+      },
+      {
+        id: uid(),
+        title: "O Pequeno Príncipe",
+        author: "Antoine de Saint-Exupéry",
+        genre: "Ficção",
+        coverUrl:
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
+      },
+      {
+        id: uid(),
+        title: "Hábitos Atômicos",
+        author: "James Clear",
+        genre: "Desenvolvimento Pessoal",
+        coverUrl:
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2Fbb6e9e87addf4dd9a0fcecf3c8498980?format=webp&width=800",
       },
       {
         id: uid(),
@@ -342,15 +358,7 @@ export const MockApi = {
         author: "J. R. R. Tolkien",
         genre: "Fantasia",
         coverUrl:
-          "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop",
-      },
-      {
-        id: uid(),
-        title: "Mindset",
-        author: "Carol S. Dweck",
-        genre: "Psicologia",
-        coverUrl:
-          "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800&auto=format&fit=crop",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
       },
     ];
   },
