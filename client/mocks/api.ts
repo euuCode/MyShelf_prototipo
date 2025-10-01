@@ -197,7 +197,7 @@ export const MockApi = {
     }, 0);
     const overallProgressPct = totalBooks > 0 ? Math.round(progressSum / totalBooks) : 0;
 
-    const suggestions: Recommendation[] = MockApi.getRecommendations(userId);
+    const suggestions: Recommendation[] = await MockApi.getRecommendations(userId, "quick");
 
     const recentBooks = [...list]
       .sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt))
