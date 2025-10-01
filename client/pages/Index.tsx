@@ -3,7 +3,6 @@ import { ProtectedRoute, useAuth } from "@/context/AuthContext";
 import { MockApi } from "@/mocks/api";
 import { Book, DashboardData } from "@shared/api";
 import { StatCard, BookCard } from "@/components/BookCard";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
@@ -62,18 +61,10 @@ function Dashboard() {
           <p className="text-muted-foreground">Aqui está um resumo da sua biblioteca e sugestões para a próxima leitura.</p>
         </section>
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <StatCard title="Total de livros" value={String(summary.totalBooks)} />
-          <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
-            <div className="text-sm text-muted-foreground">Leituras em andamento</div>
-            <div className="flex items-center justify-between mt-1">
-              <div className="text-2xl font-bold">{summary.reading}</div>
-              <span className="text-xs text-muted-foreground">{summary.overallProgressPct}%</span>
-            </div>
-            <div className="mt-3">
-              <Progress value={summary.overallProgressPct} />
-            </div>
-          </div>
+        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="/library" className="block focus:outline-none focus:ring-2 focus:ring-ring rounded-lg">
+            <StatCard title="Total de livros" value={String(summary.totalBooks)} />
+          </a>
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
             <div className="text-sm text-muted-foreground">Última atividade</div>
             <div className="text-2xl font-bold mt-1">{last ? last.title : "Sem atividades"}</div>
