@@ -82,8 +82,10 @@ function ReaderInner() {
       setLoading(false);
       if (found) {
         // keep overall progress synced
-        const current = linearIndex(generateChapters(found), st.chapterIndex, st.pageIndex);
-        await MockApi.updateBook(user.id, found.id, { totalPages: pagesTotal || 0, currentPage: current });
+        const chs = generateChapters(found);
+        const current = linearIndex(chs, st.chapterIndex, st.pageIndex);
+        const total = totalPages(chs);
+        await MockApi.updateBook(user.id, found.id, { totalPages: total, currentPage: current });
       }
     })();
   }, [user, id]);
