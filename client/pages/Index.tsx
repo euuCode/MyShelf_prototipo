@@ -57,7 +57,7 @@ function Dashboard() {
     <div className="min-h-screen bg-background">
       <main className="container pt-24 pb-10 space-y-10">
         <section className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Olá, {user?.name.split(" ")[0]} 👋</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Olá, {user?.name.split(" ")[0]}</h1>
           <p className="text-muted-foreground">Aqui está um resumo da sua biblioteca e sugestões para a próxima leitura.</p>
         </section>
 
