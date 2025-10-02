@@ -86,7 +86,7 @@ function seedIfEmpty() {
         author: "Antoine de Saint-Exupéry",
         genre: "Ficção",
         coverUrl:
-          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
         status: "completed",
         currentPage: 96,
         totalPages: 96,
@@ -109,9 +109,9 @@ seedIfEmpty();
 const COVER_MAP: Record<string, string> = {
   "Sapiens": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F28bdbd85bdfa4e9397c414000978e079?format=webp&width=800",
   "Clean Code": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
-  "O Pequeno Príncipe": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
+  "O Pequeno Príncipe": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
   "Hábitos Atômicos": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2Fbb6e9e87addf4dd9a0fcecf3c8498980?format=webp&width=800",
-  "O Hobbit": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
+  "O Hobbit": "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
 };
 
 (function upgradeCovers() {
@@ -368,7 +368,7 @@ export const MockApi = {
         author: "Antoine de Saint-Exupéry",
         genre: "Ficção",
         coverUrl:
-          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
       },
       {
         id: uid(),
@@ -384,7 +384,7 @@ export const MockApi = {
         author: "J. R. R. Tolkien",
         genre: "Fantasia",
         coverUrl:
-          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F60b0bbe7c8b04a36903bf90fc0f41ea8?format=webp&width=800",
+          "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F4e9c8248cb4c4d99a42e7717c6c3d8ea?format=webp&width=800",
       },
     ];
   },
