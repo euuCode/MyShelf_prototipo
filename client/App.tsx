@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import Library from "./pages/Library";
 import Recommendations from "./pages/Recommendations";
 import Settings from "./pages/Settings";
+import Reader from "./pages/Reader";
 import Navbar from "@/components/layout/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Settings />} />
+          <Route path="/read/:id" element={<Reader />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

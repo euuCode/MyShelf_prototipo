@@ -118,6 +118,17 @@ export interface UserProfileFull extends UserProfile {
   preferences: UserPreferences;
 }
 
+// Reading state (client-side simulation)
+export interface Bookmark {
+  chapterIndex: number;
+  pageIndex: number;
+}
+export interface ReadingState {
+  chapterIndex: number;
+  pageIndex: number;
+  bookmarks: Bookmark[];
+}
+
 /** Example response type for /api/demo */
 export interface DemoResponse {
   message: string;
