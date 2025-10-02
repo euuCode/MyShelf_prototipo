@@ -126,7 +126,7 @@ seedIfEmpty();
 
 // Normalize covers for existing data
 const COVER_MAP: Record<string, string> = {
-  Sapiens:
+  "Sapiens":
     "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F28bdbd85bdfa4e9397c414000978e079?format=webp&width=800",
   "Clean Code":
     "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
@@ -285,43 +285,6 @@ export const MockApi = {
       suggestions,
       recentBooks,
     };
-  },
-
-  getRecommendations(_userId: ID): Recommendation[] {
-    return [
-      {
-        id: uid(),
-        title: "Hábitos Atômicos",
-        author: "James Clear",
-        genre: "Desenvolvimento Pessoal",
-        coverUrl:
-          "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
-      },
-      {
-        id: uid(),
-        title: "Sapiens",
-        author: "Yuval Noah Harari",
-        genre: "História",
-        coverUrl:
-          "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=800&auto=format&fit=crop",
-      },
-      {
-        id: uid(),
-        title: "O Hobbit",
-        author: "J. R. R. Tolkien",
-        genre: "Fantasia",
-        coverUrl:
-          "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop",
-      },
-      {
-        id: uid(),
-        title: "Mindset",
-        author: "Carol S. Dweck",
-        genre: "Psicologia",
-        coverUrl:
-          "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800&auto=format&fit=crop",
-      },
-    ];
   },
 
   async addBook(userId: ID, book: BookCreate): Promise<Book> {
