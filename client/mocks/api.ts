@@ -126,7 +126,7 @@ seedIfEmpty();
 
 // Normalize covers for existing data
 const COVER_MAP: Record<string, string> = {
-  "Sapiens":
+  Sapiens:
     "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F28bdbd85bdfa4e9397c414000978e079?format=webp&width=800",
   "Clean Code":
     "https://cdn.builder.io/api/v1/image/assets%2F3c8a0a5812c44b06be8fd0e2f1e4ec7f%2F63541a2cdebc4d338e9a5c26a5be0648?format=webp&width=800",
